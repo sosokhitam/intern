@@ -7,7 +7,7 @@ import Reveal from "./ui/Reveal";
 import TiltCard from "./ui/TiltCard";
 import { Github } from "./ui/BrandIcons";
 
-/** Preview browser mockup dengan auto-reset state jika path gambar berubah. */
+/** Preview Browser Mockup Profesional & Interaktif */
 function BrowserPreview({ project }) {
   const [failed, setFailed] = useState(false);
 
@@ -17,41 +17,82 @@ function BrowserPreview({ project }) {
   }, [project.image]);
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0b0b18] shadow-2xl">
-      {/* Top Bar Mockup Browser */}
-      <div className="flex items-center gap-2 border-b border-white/8 bg-[#101024] px-4 py-3">
-        <span className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
-        <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/80" />
-        <span className="h-2.5 w-2.5 rounded-full bg-green-400/80" />
-        <span className="font-mono-alt ml-3 truncate text-[11px] text-zinc-500">
-          {project.demo !== "#"
-            ? project.demo.replace(/^https?:\/\//, "")
-            : `${project.title.toLowerCase().replace(/\s+/g, "-")}.local`}
-        </span>
-      </div>
+    <div className="group/preview relative w-full overflow-hidden rounded-2xl border border-white/10 bg-[#090914] p-2 shadow-2xl transition-all duration-500 hover:border-indigo-500/30 hover:shadow-[0_0_30px_rgba(99,102,241,0.15)]">
+      {/* Background Ambient Glow untuk efek depth */}
+      <div className="absolute -left-10 -top-10 -z-10 h-40 w-40 rounded-full bg-indigo-600/20 blur-3xl opacity-50 transition-opacity duration-500 group-hover/preview:opacity-100" />
+      <div className="absolute -bottom-10 -right-10 -z-10 h-40 w-40 rounded-full bg-cyan-500/20 blur-3xl opacity-50 transition-opacity duration-500 group-hover/preview:opacity-100" />
 
-      {/* Konten Gambar / Fallback */}
-      {failed ? (
-        <div className="flex aspect-[16/10] flex-col items-center justify-center gap-3 bg-gradient-to-br from-indigo-500/12 via-[#0b0b18] to-cyan-500/12 text-zinc-500">
-          <ImageIcon size={30} />
-          <p className="font-mono-alt px-6 text-center text-[11px] leading-relaxed">
-            Gambar gagal dimuat:
-            <br />
-            <span className="text-indigo-300">{project.image}</span>
-          </p>
+      {/* Frame Browser Inner */}
+      <div className="overflow-hidden rounded-xl border border-white/8 bg-[#0b0b18]">
+        {/* Top Bar Mockup Browser (Glassmorphism Effect) */}
+        <div className="flex items-center justify-between border-b border-white/8 bg-[#121225]/80 px-4 py-2.5 backdrop-blur-md">
+          {/* Mac Window Control Buttons */}
+          <div className="flex items-center gap-1.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-red-500/80 transition-transform group-hover/preview:scale-110" />
+            <span className="h-2.5 w-2.5 rounded-full bg-amber-500/80 transition-transform group-hover/preview:scale-110" />
+            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80 transition-transform group-hover/preview:scale-110" />
+          </div>
+
+          {/* Fake URL Bar dengan Lock/SSL Icon */}
+          <div className="flex max-w-[220px] flex-1 items-center justify-center gap-1.5 rounded-md border border-white/5 bg-white/5 px-3 py-1 text-[11px] text-zinc-400">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            <span className="font-mono-alt truncate tracking-wide text-zinc-300">
+              {project.demo !== "#"
+                ? project.demo.replace(/^https?:\/\//, "")
+                : `${project.title.toLowerCase().replace(/\s+/g, "-")}.local`}
+            </span>
+          </div>
+
+          {/* Mini Status Badge */}
+          <div className="hidden sm:block">
+            <span className="font-mono-alt rounded border border-indigo-500/20 bg-indigo-500/10 px-2 py-0.5 text-[10px] text-indigo-300">
+              LIVE PREVIEW
+            </span>
+          </div>
         </div>
-      ) : (
-        <div className="flex aspect-[16/10] w-full items-center justify-center bg-[#070712] p-1.5">
-          <img
-            key={project.image}
-            src={project.image}
-            alt={`Tampilan ${project.title}`}
-            loading="lazy"
-            onError={() => setFailed(true)}
-            className="h-full w-full rounded-lg object-contain transition-transform duration-500 group-hover:scale-[1.02]"
-          />
-        </div>
-      )}
+
+        {/* Display Container Gambar */}
+        {failed ? (
+          <div className="flex aspect-[16/10] flex-col items-center justify-center gap-3 bg-gradient-to-br from-indigo-500/10 via-[#0b0b18] to-cyan-500/10 text-zinc-500">
+            <ImageIcon size={32} className="text-indigo-400/60" />
+            <p className="font-mono-alt text-center text-[11px] leading-relaxed">
+              Screenshot belum tersedia
+              <br />
+              <span className="text-indigo-300">{project.image}</span>
+            </p>
+          </div>
+        ) : (
+          <div className="relative flex aspect-[16/10] w-full items-center justify-center overflow-hidden bg-[#05050d]">
+            {/* Gambar Screenshot Web */}
+            <img
+              key={project.image}
+              src={project.image}
+              alt={`Tampilan ${project.title}`}
+              loading="lazy"
+              onError={() => setFailed(true)}
+              className="h-full w-full rounded-b-lg object-cover object-top transition-all duration-700 ease-out group-hover/preview:scale-105"
+            />
+
+            {/* Subtle Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#090914] via-transparent to-transparent opacity-40 transition-opacity duration-300 group-hover/preview:opacity-20" />
+
+            {/* Hover Action Overlay */}
+            <div className="absolute inset-0 flex items-center justify-center gap-3 bg-black/40 opacity-0 backdrop-blur-[2px] transition-all duration-300 group-hover/preview:opacity-100">
+              {project.demo !== "#" && (
+                <a
+                  href={project.demo}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2 rounded-xl bg-indigo-600/90 px-4 py-2 text-xs font-medium text-white shadow-lg backdrop-blur-md transition-transform hover:scale-105 hover:bg-indigo-500"
+                >
+                  <ExternalLink size={14} />
+                  Kunjungi Site
+                </a>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

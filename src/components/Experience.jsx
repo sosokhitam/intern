@@ -1,14 +1,13 @@
 import { useRef, useState } from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
-import { Building2, ImageIcon } from "lucide-react";
+import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
+import { Building2, ChevronLeft, ChevronRight, ImageIcon } from "lucide-react";
 import SectionHeading from "./ui/SectionHeading";
 import Reveal from "./ui/Reveal";
 import TiltCard from "./ui/TiltCard";
 
 /**
- * Foto dokumentasi (opsional).
- * Taruh file di: public/experience/<nama>.jpg  — rasio 4:3 atau 16:9.
- * Kalau belum ada, otomatis tampil placeholder tanpa error.
+ * Data Pengalaman
+ * Field `images` berisi array path foto. Jika hanya 1 foto, carousel menyesuaikan.
  */
 const experiences = [
   {
@@ -23,7 +22,11 @@ const experiences = [
       "Menganalisis kebutuhan operasional lalu menerjemahkannya jadi solusi digital",
       "Berkolaborasi dengan staf untuk identifikasi masalah teknis & implementasi solusi",
     ],
-    image: "/experience/samsat-internship.jpg",
+    images: [
+      "/experience/samsat-1.jpg",
+      "/experience/samsat-2.jpg",
+      "/experience/samsat-3.jpg",
+    ],
   },
   {
     title: "Professional Training — Full-Stack Web Development",
@@ -37,7 +40,10 @@ const experiences = [
       "Membangun RESTful API dengan validasi & error handling",
       "Capstone project kolaboratif dengan Git workflow",
     ],
-    image: "/experience/dicoding-camp.jpg",
+    images: [
+      "/experience/dicoding-1.jpg",
+      "/experience/dicoding-2.jpg",
+    ],
   },
   {
     title: "Cybersecurity Project Collaborator",
@@ -51,7 +57,10 @@ const experiences = [
       "Analisis kerentanan dan evaluasi potensi dampaknya",
       "Dokumentasi temuan + rekomendasi langkah remediasi",
     ],
-    image: "/experience/itera-ict.jpg",
+    images: [
+      "/experience/itera-ict-1.jpg",
+      "/experience/itera-ict-2.jpg",
+    ],
   },
   {
     title: "Event Lead — Point Project 3.0",
@@ -65,7 +74,10 @@ const experiences = [
       "Mengelola timeline, pembagian tugas, dan koordinasi antar tim",
       "Mendukung persiapan dan pelaksanaan rangkaian kegiatan",
     ],
-    image: "/experience/point-project.jpg",
+    images: [
+      "/experience/point-project-1.jpg",
+      "/experience/point-project-2.jpg",
+    ],
   },
   {
     title: "Teaching Assistant",
@@ -79,7 +91,10 @@ const experiences = [
       "Membimbing pemahaman materi & pengerjaan latihan praktikum",
       "Memberi bantuan teknis dan troubleshooting selama sesi lab",
     ],
-    image: "/experience/teaching-assistant.jpg",
+    images: [
+      "/experience/teaching-1.jpg",
+      "/experience/teaching-2.jpg",
+    ],
   },
   {
     title: "Staff of Academic and Scholarship Division",
@@ -93,7 +108,10 @@ const experiences = [
       "Menyebarkan informasi beasiswa dan peluang akademik",
       "Berkontribusi pada inisiatif pengembangan akademik mahasiswa",
     ],
-    image: "/experience/hmif-itera.jpg",
+    images: [
+      "/experience/hmif-1.jpg",
+      "/experience/hmif-2.jpg",
+    ],
   },
   {
     title: "Founder & Head of Member Development Division",
@@ -107,34 +125,108 @@ const experiences = [
       "Memfasilitasi pengembangan anggota lewat diskusi teknis kolaboratif",
       "Berkolaborasi dengan tim meningkatkan engagement & program belajar komunitas",
     ],
-    image: "/experience/raven-community.jpg",
+    images: [
+      "/experience/raven-1.jpg",
+      "/experience/raven-2.jpg",
+    ],
   },
 ];
 
-function DocImage({ src, alt }) {
+/** Komponen Carousel Interaktif untuk Dokumentasi Foto */
+function ImageSlider({ images, title }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [failed, setFailed] = useState(false);
 
-  if (failed) {
+  const nextSlide = (e) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const prevSlide = (e) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  if (failed || !images || images.length === 0) {
     return (
       <div className="flex aspect-[16/10] flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-white/12 bg-white/[0.02] text-zinc-600">
-        <ImageIcon size={22} />
+        <ImageIcon size={24} className="text-indigo-400/60" />
         <p className="font-mono-alt px-4 text-center text-[10px] leading-relaxed">
-          Opsional: taruh foto dokumentasi di
+          Dokumentasi foto dapat ditaruh di:
           <br />
-          <span className="text-indigo-300">{src}</span>
+          <span className="text-indigo-300">{images?.[0] || "/experience/..."}</span>
         </p>
       </div>
     );
   }
 
   return (
-    <img
-      src={src}
-      alt={alt}
-      loading="lazy"
-      onError={() => setFailed(true)}
-      className="aspect-[16/10] w-full rounded-2xl border border-white/10 object-cover"
-    />
+    <div className="group relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-white/10 bg-[#090914]">
+      {/* Gambar dengan Animasi Fade/Slide */}
+      <AnimatePresence mode="wait">
+        <motion.img
+          key={currentIndex}
+          src={images[currentIndex]}
+          alt={`Dokumentasi ${title} - ${currentIndex + 1}`}
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          loading="lazy"
+          onError={() => setFailed(true)}
+          className="h-full w-full object-cover object-center"
+        />
+      </AnimatePresence>
+
+      {/* Overlay Gradient Soft */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
+
+      {/* Control Buttons (Muncul jika foto lebih dari 1) */}
+      {images.length > 1 && (
+        <>
+          <button
+            type="button"
+            onClick={prevSlide}
+            aria-label="Foto Sebelumnya"
+            className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full border border-white/10 bg-black/50 p-1.5 text-white/80 backdrop-blur-md opacity-0 transition-all hover:bg-indigo-600 hover:text-white group-hover:opacity-100"
+          >
+            <ChevronLeft size={16} />
+          </button>
+          <button
+            type="button"
+            onClick={nextSlide}
+            aria-label="Foto Selanjutnya"
+            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full border border-white/10 bg-black/50 p-1.5 text-white/80 backdrop-blur-md opacity-0 transition-all hover:bg-indigo-600 hover:text-white group-hover:opacity-100"
+          >
+            <ChevronRight size={16} />
+          </button>
+
+          {/* Indikator Dots & Counter */}
+          <div className="absolute bottom-3 left-0 right-0 flex items-center justify-between px-4">
+            <div className="flex gap-1.5">
+              {images.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentIndex(idx);
+                  }}
+                  className={`h-1.5 rounded-full transition-all ${
+                    idx === currentIndex
+                      ? "w-5 bg-indigo-400"
+                      : "w-1.5 bg-white/40 hover:bg-white/70"
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="font-mono-alt rounded-md bg-black/60 px-2 py-0.5 text-[10px] text-zinc-300 backdrop-blur-sm">
+              {currentIndex + 1} / {images.length}
+            </span>
+          </div>
+        </>
+      )}
+    </div>
   );
 }
 
@@ -159,7 +251,7 @@ export default function Experience() {
         />
 
         <div ref={trackRef} className="relative ml-1 pl-8 md:pl-12">
-          {/* garis timeline */}
+          {/* Garis Timeline */}
           <div className="absolute left-[3px] top-2 bottom-2 w-[2px] bg-white/8" />
           <motion.div
             style={{ scaleY }}
@@ -169,49 +261,56 @@ export default function Experience() {
           {experiences.map((item, i) => (
             <Reveal key={item.title} delay={i * 0.06} className="mb-8 last:mb-0">
               <div className="relative">
+                {/* Node Timeline */}
                 <span className="absolute -left-8 top-7 grid h-4 w-4 place-items-center md:-left-12">
                   <span className="h-4 w-4 rounded-full border-4 border-[#05050a] bg-gradient-to-br from-indigo-400 to-cyan-400" />
                 </span>
 
                 <TiltCard intensity={4} className="rounded-3xl">
-                  <div className="glass grid gap-6 rounded-3xl p-7 md:grid-cols-[1.4fr_0.6fr] md:p-8">
-                    <div>
-                      <div className="mb-3 flex flex-wrap items-center gap-3">
-                        <span className="font-mono-alt rounded-full border border-cyan-400/25 bg-cyan-400/10 px-3 py-1 text-[11px] text-cyan-300">
-                          {item.period}
-                        </span>
-                        <span className="font-mono-alt rounded-full border border-white/8 px-3 py-1 text-[11px] text-zinc-500">
-                          {item.type}
-                        </span>
+                  <div className="glass grid gap-6 rounded-3xl p-7 md:grid-cols-[1.3fr_0.7fr] md:p-8">
+                    {/* Deskripsi Pengalaman */}
+                    <div className="flex flex-col justify-between">
+                      <div>
+                        <div className="mb-3 flex flex-wrap items-center gap-3">
+                          <span className="font-mono-alt rounded-full border border-cyan-400/25 bg-cyan-400/10 px-3 py-1 text-[11px] text-cyan-300">
+                            {item.period}
+                          </span>
+                          <span className="font-mono-alt rounded-full border border-white/8 px-3 py-1 text-[11px] text-zinc-500">
+                            {item.type}
+                          </span>
+                        </div>
+
+                        <h3 className="font-display text-xl font-bold md:text-2xl">
+                          {item.title}
+                        </h3>
+
+                        <p className="mt-1.5 flex items-center gap-2 text-sm font-medium text-indigo-300">
+                          <Building2 size={15} />
+                          {item.company}
+                        </p>
+
+                        <p className="mt-4 leading-relaxed text-zinc-400">
+                          {item.description}
+                        </p>
+
+                        <ul className="mt-4 space-y-2">
+                          {item.points.map((p) => (
+                            <li
+                              key={p}
+                              className="flex items-start gap-2.5 text-sm text-zinc-300"
+                            >
+                              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-r from-indigo-400 to-cyan-400" />
+                              {p}
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-
-                      <h3 className="font-display text-xl font-bold md:text-2xl">
-                        {item.title}
-                      </h3>
-
-                      <p className="mt-1.5 flex items-center gap-2 text-sm font-medium text-indigo-300">
-                        <Building2 size={15} />
-                        {item.company}
-                      </p>
-
-                      <p className="mt-4 leading-relaxed text-zinc-400">
-                        {item.description}
-                      </p>
-
-                      <ul className="mt-4 space-y-2">
-                        {item.points.map((p) => (
-                          <li
-                            key={p}
-                            className="flex items-start gap-2.5 text-sm text-zinc-300"
-                          >
-                            <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-r from-indigo-400 to-cyan-400" />
-                            {p}
-                          </li>
-                        ))}
-                      </ul>
                     </div>
 
-                    <DocImage src={item.image} alt={`Dokumentasi ${item.title}`} />
+                    {/* Component Image Carousel */}
+                    <div className="flex flex-col justify-center">
+                      <ImageSlider images={item.images} title={item.title} />
+                    </div>
                   </div>
                 </TiltCard>
               </div>

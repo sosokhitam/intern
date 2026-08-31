@@ -76,8 +76,8 @@ const experiences = [
       "Mendukung persiapan dan pelaksanaan rangkaian kegiatan",
     ],
     images: [
-      "/experience/pointproject/1.png",
-      "/experience/pointproject/2.JPG",
+      "/experience/pointproject/1.JPG",
+      "/experience/pointproject/2.png",
     ],
   },
   {

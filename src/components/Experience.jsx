@@ -7,7 +7,7 @@ import TiltCard from "./ui/TiltCard";
 
 /**
  * Data Pengalaman
- * Field `images` berisi array path foto. Jika hanya 1 foto, carousel menyesuaikan.
+ * Path gambar telah disesuaikan tepat dengan struktur folder public/experience/
  */
 const experiences = [
   {
@@ -23,9 +23,9 @@ const experiences = [
       "Berkolaborasi dengan staf untuk identifikasi masalah teknis & implementasi solusi",
     ],
     images: [
-      "/experience/samsat-1.jpg",
-      "/experience/samsat-2.jpg",
-      "/experience/samsat-3.jpg",
+      "/experience/samsat/1.jpeg",
+      "/experience/samsat/2.jpeg",
+      "/experience/samsat/3.jpeg",
     ],
   },
   {
@@ -41,8 +41,9 @@ const experiences = [
       "Capstone project kolaboratif dengan Git workflow",
     ],
     images: [
-      "/experience/dicoding-1.jpg",
-      "/experience/dicoding-2.jpg",
+      "/experience/dicoding/1.png",
+      "/experience/dicoding/2.png",
+      "/experience/dicoding/3.png",
     ],
   },
   {
@@ -58,8 +59,8 @@ const experiences = [
       "Dokumentasi temuan + rekomendasi langkah remediasi",
     ],
     images: [
-      "/experience/itera-ict-1.jpg",
-      "/experience/itera-ict-2.jpg",
+      "/experience/ict/1.jpeg",
+      "/experience/ict/2.jpeg",
     ],
   },
   {
@@ -75,8 +76,8 @@ const experiences = [
       "Mendukung persiapan dan pelaksanaan rangkaian kegiatan",
     ],
     images: [
-      "/experience/point-project-1.jpg",
-      "/experience/point-project-2.jpg",
+      "/experience/pointproject/1.png",
+      "/experience/pointproject/2.JPG",
     ],
   },
   {
@@ -92,8 +93,9 @@ const experiences = [
       "Memberi bantuan teknis dan troubleshooting selama sesi lab",
     ],
     images: [
-      "/experience/teaching-1.jpg",
-      "/experience/teaching-2.jpg",
+      "/experience/asisstant/1.png",
+      "/experience/asisstant/2.png",
+      "/experience/asisstant/3.jpg",
     ],
   },
   {
@@ -109,8 +111,8 @@ const experiences = [
       "Berkontribusi pada inisiatif pengembangan akademik mahasiswa",
     ],
     images: [
-      "/experience/hmif-1.jpg",
-      "/experience/hmif-2.jpg",
+      "/experience/asisstant/1.png",
+      "/experience/asisstant/2.png",
     ],
   },
   {
@@ -126,8 +128,8 @@ const experiences = [
       "Berkolaborasi dengan tim meningkatkan engagement & program belajar komunitas",
     ],
     images: [
-      "/experience/raven-1.jpg",
-      "/experience/raven-2.jpg",
+      "/experience/raven/1.jpg",
+      "/experience/raven/2.png",
     ],
   },
 ];

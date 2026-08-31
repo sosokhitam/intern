@@ -1,83 +1,112 @@
-import { Code2, GraduationCap, Briefcase, Users, Award, MapPin } from "lucide-react";
+import {
+  Code2,
+  GraduationCap,
+  Briefcase,
+  Award,
+  MapPin,
+  Rocket,
+} from "lucide-react";
+import SectionHeading from "./ui/SectionHeading";
+import Reveal from "./ui/Reveal";
+import TiltCard from "./ui/TiltCard";
+import CountUp from "./ui/CountUp";
 
-const statsData = [
-  {
-    iconName: "Code2",
-    value: "5+",
-    label: "Projects Completed",
-  },
-  {
-    iconName: "Briefcase",
-    value: "3+",
-    label: "Professional Roles",
-  },
-  {
-    iconName: "GraduationCap",
-    value: "6th",
-    label: "Semester at ITERA",
-  },
-  {
-    iconName: "Award",
-    value: "8+",
-    label: "Certifications",
-  },
+const stats = [
+  { icon: Code2, value: 5, suffix: "", label: "Featured Projects" },
+  { icon: Briefcase, value: 7, suffix: "", label: "Roles & Pengalaman" },
+  { icon: GraduationCap, value: 120, suffix: "+", label: "Mahasiswa Dibimbing" },
+  { icon: Award, value: 5, suffix: "+", label: "Sertifikasi" },
 ];
 
-const iconMap = {
-  Code2,
-  Briefcase,
-  GraduationCap,
-  Award,
-};
+const focusAreas = [
+  "Backend & RESTful API",
+  "Database Design",
+  "React Frontend",
+  "Cloud & Deployment",
+];
 
 export default function About() {
   return (
-    <section id="about" className="relative py-24 px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-14">
-          <p className="text-blue-400 mb-3 font-semibold">TENTANG SAYA</p>
-          <h2 className="text-4xl md:text-5xl font-bold">
-            Membangun solusi digital dengan
-            <span className="text-blue-400"> tujuan dan inovasi.</span>
-          </h2>
-        </div>
+    <section id="about" className="section">
+      <div className="orb left-[-10rem] top-16 h-[380px] w-[380px] bg-fuchsia-600/12" />
 
-        <div className="grid lg:grid-cols-2 gap-10 items-start">
-          <div className="bg-[#111827] border border-white/10 rounded-3xl p-8 hover:border-blue-500/50 transition">
-            <h3 className="text-2xl font-bold mb-4">Informatics Engineering Student</h3>
-            <p className="text-zinc-300 leading-relaxed mb-4">
-              Saya adalah mahasiswa Informatics Engineering di Institut Teknologi Sumatera (ITERA) 
-              dengan minat kuat dalam backend dan web application development. Berpengalaman dalam 
-              mengembangkan full-stack applications menggunakan JavaScript, React.js, Node.js, Express.js, 
-              dan PostgreSQL melalui pembelajaran akademis dan project-based learning.
-            </p>
+      <div className="container-x relative">
+        <SectionHeading
+          eyebrow="Tentang Saya"
+          title="Membangun solusi digital dengan"
+          highlight="tujuan dan inovasi."
+          description="Saya percaya kode yang baik bukan hanya yang berjalan, tapi yang mudah dirawat, aman, dan benar-benar menyelesaikan masalah pengguna."
+        />
 
-            <p className="text-zinc-400 leading-relaxed mb-4">
-              Saat ini mengikuti <span className="text-blue-300 font-semibold">Full Stack Developer Cohort di Dicoding Camp </span> 
-              di mana saya belajar pengembangan web modern, cloud computing, dan deployment.
-            </p>
-
-            <div className="flex items-center gap-3 text-zinc-300">
-              <MapPin size={18} className="text-blue-400" />
-              <span>Lampung, Indonesia</span>
-            </div>
-          </div>
-
-          <div className="grid sm:grid-cols-2 gap-5">
-            {statsData.map((item, index) => {
-              const IconComponent = iconMap[item.iconName];
-              return (
-                <div
-                  key={index}
-                  className="bg-[#111827] border border-white/10 rounded-3xl p-6 hover:border-blue-500/50 transition"
-                >
-                  <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center mb-5">
-                    <IconComponent size={26} />
-                  </div>
-
-                  <h3 className="text-3xl font-bold">{item.value}</h3>
-                  <p className="text-zinc-400 mt-1 text-sm">{item.label}</p>
+        <div className="grid items-start gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+          <Reveal>
+            <TiltCard intensity={5} className="rounded-3xl">
+              <div className="glass rounded-3xl p-8">
+                <div className="mb-5 flex items-center gap-3">
+                  <span className="grid h-12 w-12 place-items-center rounded-2xl bg-indigo-500/15 text-indigo-300">
+                    <Rocket size={22} />
+                  </span>
+                  <h3 className="font-display text-2xl font-bold">
+                    Informatics Engineering Student
+                  </h3>
                 </div>
+
+                <p className="leading-relaxed text-zinc-300">
+                  Mahasiswa Teknik Informatika di{" "}
+                  <span className="font-semibold text-white">
+                    Institut Teknologi Sumatera (ITERA)
+                  </span>{" "}
+                  dengan minat kuat pada backend dan web application development.
+                  Berpengalaman membangun aplikasi full-stack menggunakan
+                  JavaScript, React.js, Node.js, Express.js, Laravel, dan
+                  PostgreSQL melalui pembelajaran akademis maupun project nyata.
+                </p>
+
+                <p className="mt-4 leading-relaxed text-zinc-400">
+                  Baru menuntaskan{" "}
+                  <span className="font-semibold text-indigo-300">
+                    Dicoding Camp Fullstack Developer
+                  </span>{" "}
+                  dan internship Management Information System di SAMSAT. Selain
+                  ngoding, saya aktif sebagai teaching assistant dan founder
+                  Raven Community — mengajar membuat saya terbiasa menjelaskan
+                  hal teknis dengan sederhana.
+                </p>
+
+                <div className="mt-7 flex flex-wrap gap-2">
+                  {focusAreas.map((item) => (
+                    <span key={item} className="chip">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-7 flex items-center gap-3 border-t border-white/8 pt-6 text-zinc-300">
+                  <MapPin size={18} className="text-cyan-400" />
+                  <span>Lampung, Indonesia — open to remote & hybrid</span>
+                </div>
+              </div>
+            </TiltCard>
+          </Reveal>
+
+          <div className="grid gap-5 sm:grid-cols-2">
+            {stats.map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <Reveal key={item.label} delay={i * 0.1}>
+                  <TiltCard intensity={9} className="h-full rounded-3xl">
+                    <div className="glass h-full rounded-3xl p-6">
+                      <span className="mb-5 grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-indigo-500/25 to-cyan-400/15 text-indigo-300">
+                        <Icon size={24} />
+                      </span>
+
+                      <h3 className="font-display text-4xl font-bold">
+                        <CountUp value={item.value} suffix={item.suffix} />
+                      </h3>
+                      <p className="mt-1 text-sm text-zinc-400">{item.label}</p>
+                    </div>
+                  </TiltCard>
+                </Reveal>
               );
             })}
           </div>

@@ -1,140 +1,233 @@
-import { ExternalLink } from "lucide-react";
-import SisaBisa from "../assets/Project/sisabisa.png";
-import cleanarea from "../assets/Project/cleanarea.png";
-import orderq from "../assets/Project/orderq.png";
+import { useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ExternalLink, Sparkles, ImageIcon } from "lucide-react";
+import { projects, projectFilters } from "../data/projects";
+import SectionHeading from "./ui/SectionHeading";
+import Reveal from "./ui/Reveal";
+import TiltCard from "./ui/TiltCard";
+import { Github } from "./ui/BrandIcons";
 
-const projects = [
-  {
-    title: "SisaBisa",
-    description:
-      "AI-powered food waste management platform that helps users manage ingredients, track expiration dates, receive reminders, and get recipe recommendations based on available food ingredients.",
-    tech: ["React", "Express.js", "PostgreSQL", "Supabase", "AI"],
-    role: "AI Food Intelligence Platform",
-    image: SisaBisa,
-    demo: "https://sisabisa.vercel.app/",
-    github: "https://github.com/sosokhitam/sisabisa-capstone",
-  },
-  {
-    title: "OrderQ",
-    description:
-      "Order and queue management system for UMKM, cafes, and restaurants to manage products, customer orders, carts, stock, and payment flow in one integrated platform.",
-    tech: ["Laravel", "PostgreSQL", "Supabase", "Tailwind CSS", "Breeze"],
-    role: "Laravel Fullstack Application",
-    image: orderq,
-    demo: "#",
-    github: "#",
-  },
-  {
-    title: "Clean Area",
-    description:
-      "Premium shoe cleaning service website built for a local UMKM to showcase services, promotions, location, and digital business presence through a modern landing page.",
-    tech: ["Laravel", "MySQL", "Bootstrap", "Deployment"],
-    role: "Real Client Project",
-    image: cleanarea,
-    demo: "https://cleanarea.id/",
-    github: "#",
-  },
-];
+/** Preview browser mockup; jika gambar belum ada tampilkan placeholder. */
+function BrowserPreview({ project }) {
+  const [failed, setFailed] = useState(false);
 
-export default function Projects() {
   return (
-    <section id="projects" className="relative py-24 px-6">
-      <div className="absolute left-0 top-20 w-[420px] h-[420px] bg-blue-500/10 blur-[140px] rounded-full" />
+    <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0b0b18] shadow-2xl">
+      <div className="flex items-center gap-2 border-b border-white/8 bg-[#101024] px-4 py-3">
+        <span className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
+        <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/80" />
+        <span className="h-2.5 w-2.5 rounded-full bg-green-400/80" />
+        <span className="font-mono-alt ml-3 truncate text-[11px] text-zinc-500">
+          {project.demo !== "#"
+            ? project.demo.replace(/^https?:\/\//, "")
+            : `${project.title.toLowerCase().replace(/\s+/g, "-")}.local`}
+        </span>
+      </div>
 
-      <div className="relative max-w-7xl mx-auto">
-        <div className="mb-14">
-          <p className="text-blue-400 mb-3 font-semibold">FEATURED PROJECTS</p>
-
-          <h2 className="text-4xl md:text-5xl font-bold">
-            Hasil karya dan case studies
-          </h2>
-
-          <p className="text-zinc-400 mt-5 max-w-2xl">
-            Kumpulan project nyata yang merepresentasikan pengalaman dalam fullstack development, 
-            Laravel applications, backend API, database design, AI integration, dan deployment.
+      {failed ? (
+        <div className="flex aspect-[16/10] flex-col items-center justify-center gap-3 bg-gradient-to-br from-indigo-500/12 via-[#0b0b18] to-cyan-500/12 text-zinc-500">
+          <ImageIcon size={30} />
+          <p className="font-mono-alt px-6 text-center text-[11px] leading-relaxed">
+            Tambahkan screenshot di
+            <br />
+            <span className="text-indigo-300">{project.image}</span>
           </p>
         </div>
-
-        <div className="space-y-8">
-          {projects.map((project, index) => (
-            <div
-              key={index}
-              className="group grid lg:grid-cols-[1.15fr_0.85fr] bg-[#111827] border border-white/10 rounded-3xl overflow-hidden hover:border-blue-500/50 transition duration-300"
-            >
-              <div className="bg-[#070A12] p-4 md:p-6 border-b lg:border-b-0 lg:border-r border-white/10">
-                <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-white shadow-2xl">
-                  <div className="flex items-center gap-2 px-4 py-3 bg-[#0B1120] border-b border-white/10">
-                    <span className="w-3 h-3 rounded-full bg-red-400" />
-                    <span className="w-3 h-3 rounded-full bg-yellow-400" />
-                    <span className="w-3 h-3 rounded-full bg-green-400" />
-                    <span className="ml-3 text-xs text-zinc-400">
-                      {project.title}
-                    </span>
-                  </div>
-
-                  <div className="bg-white">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-auto object-contain"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-8 lg:p-10 flex flex-col justify-center">
-                <p className="text-blue-400 text-sm mb-3">
-                  {project.role}
-                </p>
-
-                <h3 className="text-3xl md:text-4xl font-bold mb-5">
-                  {project.title}
-                </h3>
-
-                <p className="text-zinc-400 leading-relaxed">
-                  {project.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2 mt-6">
-                  {project.tech.map((item, i) => (
-                    <span
-                      key={i}
-                      className="text-sm text-zinc-300 bg-white/5 border border-white/10 px-4 py-2 rounded-full"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="flex flex-wrap gap-5 mt-8">
-                  {project.demo !== "#" && (
-                    <a
-                      href={project.demo}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex items-center gap-2 text-zinc-300 hover:text-blue-400 transition"
-                    >
-                      <ExternalLink size={18} />
-                      Live Demo
-                    </a>
-                  )}
-
-                  {project.github !== "#" && (
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex items-center gap-2 text-zinc-300 hover:text-blue-400 transition"
-                    >
-                      <span className="text-xs font-bold">GH</span>
-                      Source Code
-                    </a>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
+      ) : (
+        <div className="bg-white">
+          <img
+            src={project.image}
+            alt={`Tampilan ${project.title}`}
+            loading="lazy"
+            onError={() => setFailed(true)}
+            className="aspect-[16/10] w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
+          />
         </div>
+      )}
+    </div>
+  );
+}
+
+export default function Projects() {
+  const [filter, setFilter] = useState("All");
+
+  const visible = useMemo(
+    () =>
+      filter === "All"
+        ? projects
+        : projects.filter((p) => p.category === filter),
+    [filter]
+  );
+
+  return (
+    <section id="projects" className="section">
+      <div className="orb left-[-9rem] top-24 h-[420px] w-[420px] bg-indigo-600/16" />
+
+      <div className="container-x relative">
+        <SectionHeading
+          eyebrow="Featured Projects"
+          title="Hasil karya dan"
+          highlight="case studies."
+          description="Kumpulan project nyata yang merepresentasikan pengalaman saya di fullstack development, backend API, database design, AI integration, security, dan deployment."
+        />
+
+        <Reveal>
+          <div className="mb-10 flex flex-wrap gap-2">
+            {projectFilters.map((item) => {
+              const active = filter === item;
+              return (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => setFilter(item)}
+                  className={`relative rounded-full px-4 py-2 text-sm transition-colors ${
+                    active ? "text-white" : "text-zinc-400 hover:text-white"
+                  }`}
+                >
+                  {active && (
+                    <motion.span
+                      layoutId="project-filter"
+                      className="absolute inset-0 -z-10 rounded-full border border-indigo-400/40 bg-indigo-500/18"
+                      transition={{ type: "spring", stiffness: 320, damping: 28 }}
+                    />
+                  )}
+                  {!active && (
+                    <span className="absolute inset-0 -z-10 rounded-full border border-white/8" />
+                  )}
+                  {item}
+                </button>
+              );
+            })}
+          </div>
+        </Reveal>
+
+        <motion.div layout className="grid gap-7 lg:grid-cols-2">
+          <AnimatePresence mode="popLayout">
+            {visible.map((project) => (
+              <motion.article
+                key={project.title}
+                layout
+                initial={{ opacity: 0, y: 28, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -16, scale: 0.97 }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                className={project.featured ? "lg:col-span-2" : ""}
+              >
+                <TiltCard intensity={project.featured ? 4 : 7} className="h-full rounded-3xl">
+                  <div
+                    className={`glass group h-full overflow-hidden rounded-3xl ${
+                      project.featured
+                        ? "grid lg:grid-cols-[1.05fr_0.95fr]"
+                        : "flex flex-col"
+                    }`}
+                  >
+                    <div className="border-b border-white/8 bg-[#07070f]/60 p-5 lg:border-b-0 lg:border-r">
+                      <BrowserPreview project={project} />
+                    </div>
+
+                    <div className="flex flex-col justify-center p-7 lg:p-9">
+                      <div className="mb-4 flex flex-wrap items-center gap-3">
+                        <span className="font-mono-alt rounded-full border border-indigo-400/25 bg-indigo-500/10 px-3 py-1 text-[11px] uppercase tracking-wider text-indigo-300">
+                          {project.category}
+                        </span>
+                        <span className="font-mono-alt text-[11px] text-zinc-500">
+                          {project.year}
+                        </span>
+                        {project.featured && (
+                          <span className="flex items-center gap-1 text-[11px] text-cyan-300">
+                            <Sparkles size={12} />
+                            Featured
+                          </span>
+                        )}
+                      </div>
+
+                      <h3
+                        className={`font-display font-bold ${
+                          project.featured ? "text-3xl md:text-4xl" : "text-2xl"
+                        }`}
+                      >
+                        {project.title}
+                      </h3>
+
+                      <p className="mt-1.5 text-sm text-cyan-300">
+                        {project.tagline}
+                      </p>
+
+                      <p className="mt-4 leading-relaxed text-zinc-400">
+                        {project.description}
+                      </p>
+
+                      <ul className="mt-5 space-y-2">
+                        {project.highlights.map((h) => (
+                          <li
+                            key={h}
+                            className="flex items-start gap-2.5 text-sm text-zinc-300"
+                          >
+                            <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-r from-indigo-400 to-cyan-400" />
+                            {h}
+                          </li>
+                        ))}
+                      </ul>
+
+                      <div className="mt-6 flex flex-wrap gap-2">
+                        {project.tech.map((item) => (
+                          <span key={item} className="chip">
+                            {item}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="mt-7 flex flex-wrap gap-4">
+                        {project.demo !== "#" ? (
+                          <a
+                            href={project.demo}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="btn-primary !py-2.5 !px-5 text-sm"
+                          >
+                            <ExternalLink size={16} />
+                            Live Demo
+                          </a>
+                        ) : (
+                          <span className="btn-ghost cursor-not-allowed !py-2.5 !px-5 text-sm opacity-45">
+                            <ExternalLink size={16} />
+                            Demo Private
+                          </span>
+                        )}
+
+                        {project.github !== "#" && (
+                          <a
+                            href={project.github}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="btn-ghost !py-2.5 !px-5 text-sm"
+                          >
+                            <Github size={16} />
+                            Source Code
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </TiltCard>
+              </motion.article>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
+        <Reveal delay={0.1}>
+          <div className="mt-12 text-center">
+            <a
+              href="https://github.com/sosokhitam"
+              target="_blank"
+              rel="noreferrer"
+              className="btn-ghost"
+            >
+              <Github size={18} />
+              Lihat semua repository di GitHub
+            </a>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

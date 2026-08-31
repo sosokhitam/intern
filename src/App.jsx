@@ -7,19 +7,28 @@ import Skills from "./components/Skills";
 import Experience from "./components/Experience";
 import Certifications from "./components/Certifications";
 import Contact from "./components/Contact";
+import Loader from "./components/ui/Loader";
+import ScrollProgress from "./components/ui/ScrollProgress";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-[#09090B] text-white">
+    <div className="relative min-h-screen bg-[#05050a] text-zinc-100">
+      <Loader />
+      <ScrollProgress />
+      <div className="noise" aria-hidden />
+
       <Navbar />
-      <Hero />
-      <About />
-      <TechStack />
-      <Projects />
-      <Skills />
-      <Experience />
-      <Certifications />
-      <Contact />
+
+      <main className="relative z-[2]">
+        <Hero />
+        <About />
+        <TechStack />
+        <Projects />
+        <Skills />
+        <Experience />
+        <Certifications />
+        <Contact />
+      </main>
     </div>
   );
 }

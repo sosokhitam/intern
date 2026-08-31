@@ -1,73 +1,122 @@
 import { Users, Lightbulb, Target, MessageCircle } from "lucide-react";
+import SectionHeading from "./ui/SectionHeading";
+import Reveal from "./ui/Reveal";
+import TiltCard from "./ui/TiltCard";
 
-const skillsData = [
+const softSkills = [
   {
     category: "Leadership",
-    iconName: "Users",
-    description: "Mentoring, team collaboration, dan community building"
+    icon: Users,
+    description:
+      "Mendampingi 120 mahasiswa sebagai teaching assistant, founder Raven Community, dan event lead kompetisi nasional.",
   },
   {
     category: "Problem Solving",
-    iconName: "Target",
-    description: "Analytical thinking, debugging, dan logical reasoning"
+    icon: Target,
+    description:
+      "Analytical thinking, debugging sistematis, dan logical reasoning berbasis data.",
   },
   {
     category: "Innovation",
-    iconName: "Lightbulb",
-    description: "Creative solutions, AI integration, dan technology exploration"
+    icon: Lightbulb,
+    description:
+      "Eksplorasi teknologi baru, integrasi AI, dan mencari solusi yang efisien.",
   },
   {
     category: "Communication",
-    iconName: "MessageCircle",
-    description: "Clear documentation, technical presentations, dan teamwork"
+    icon: MessageCircle,
+    description:
+      "Dokumentasi jelas, presentasi teknis, dan kerja sama lintas peran.",
   },
 ];
 
-const iconMap = {
-  Users,
-  Target,
-  Lightbulb,
-  MessageCircle,
-};
+const technicalLevels = [
+  { name: "JavaScript / React", level: 88 },
+  { name: "Node.js / Express.js", level: 85 },
+  { name: "Laravel / PHP", level: 82 },
+  { name: "PostgreSQL / MySQL", level: 80 },
+  { name: "Docker & AWS", level: 70 },
+];
 
 export default function Skills() {
   return (
-    <section id="skills" className="relative py-24 px-6">
-      <div className="absolute right-0 top-20 w-[400px] h-[400px] bg-blue-500/10 blur-[140px] rounded-full" />
+    <section id="skills" className="section">
+      <div className="orb right-0 top-20 h-[400px] w-[400px] bg-fuchsia-600/12" />
 
-      <div className="relative max-w-7xl mx-auto">
-        <div className="mb-14 text-center">
-          <p className="text-blue-400 mb-3 font-semibold">SOFT SKILLS</p>
-          <h2 className="text-4xl md:text-5xl font-bold">
-            Beyond Code
-          </h2>
-          <p className="text-zinc-400 mt-5 max-w-2xl mx-auto">
-            Skills yang membuat saya menjadi developer yang lebih baik dan colleague yang lebih valuable dalam team development.
-          </p>
-        </div>
+      <div className="container-x relative">
+        <SectionHeading
+          eyebrow="Skills"
+          title="Kemampuan teknis dan"
+          highlight="beyond code."
+          description="Kombinasi keterampilan teknis dan soft skill yang saya bawa ke dalam tim development."
+          align="center"
+        />
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {skillsData.map((skill, index) => {
-            const IconComponent = iconMap[skill.iconName];
-            return (
-              <div
-                key={index}
-                className="bg-[#111827] border border-white/10 rounded-3xl p-8 hover:border-blue-500/50 transition duration-300 group"
-              >
-                <div className="w-14 h-14 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center mb-5 group-hover:bg-blue-500/20 transition">
-                  <IconComponent size={24} />
-                </div>
+        <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+          <Reveal>
+            <div className="glass rounded-3xl p-8">
+              <h3 className="mb-7 font-display text-xl font-semibold">
+                Technical Proficiency
+              </h3>
 
-                <h3 className="text-xl font-bold text-white mb-3">
-                  {skill.category}
-                </h3>
+              <div className="space-y-6">
+                {technicalLevels.map((skill, i) => (
+                  <div key={skill.name}>
+                    <div className="mb-2 flex items-center justify-between text-sm">
+                      <span className="text-zinc-200">{skill.name}</span>
+                      <span className="font-mono-alt text-zinc-500">
+                        {skill.level}%
+                      </span>
+                    </div>
 
-                <p className="text-zinc-400 text-sm leading-relaxed">
-                  {skill.description}
-                </p>
+                    <div className="h-2 overflow-hidden rounded-full bg-white/6">
+                      <Reveal delay={i * 0.08} y={0}>
+                        <div
+                          className="relative h-2 rounded-full bg-gradient-to-r from-indigo-500 via-cyan-400 to-fuchsia-500"
+                          style={{
+                            width: `${skill.level}%`,
+                            transition: "width 1.1s cubic-bezier(0.22,1,0.36,1)",
+                          }}
+                        >
+                          <span className="shine absolute inset-0 overflow-hidden rounded-full" />
+                        </div>
+                      </Reveal>
+                    </div>
+                  </div>
+                ))}
               </div>
-            );
-          })}
+
+              <p className="font-mono-alt mt-8 text-[11px] leading-relaxed text-zinc-500">
+                * Level merupakan estimasi berdasarkan pengalaman project dan
+                pembelajaran terstruktur.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="grid gap-5 sm:grid-cols-2">
+            {softSkills.map((skill, i) => {
+              const Icon = skill.icon;
+              return (
+                <Reveal key={skill.category} delay={i * 0.09}>
+                  <TiltCard intensity={9} className="h-full rounded-3xl">
+                    <div className="glass h-full rounded-3xl p-7">
+                      <span className="mb-5 grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-indigo-500/25 to-fuchsia-500/15 text-indigo-300">
+                        <Icon size={24} />
+                      </span>
+
+                      <h3 className="mb-3 font-display text-lg font-bold">
+                        {skill.category}
+                      </h3>
+
+                      <p className="text-sm leading-relaxed text-zinc-400">
+                        {skill.description}
+                      </p>
+                    </div>
+                  </TiltCard>
+                </Reveal>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

@@ -7,7 +7,7 @@ import Reveal from "./ui/Reveal";
 import TiltCard from "./ui/TiltCard";
 import { Github } from "./ui/BrandIcons";
 
-/** Preview Browser Mockup Profesional & Interaktif */
+/** Preview Browser Mockup Profesional & Fit Sesuai Screenshot */
 function BrowserPreview({ project }) {
   const [failed, setFailed] = useState(false);
 
@@ -18,7 +18,7 @@ function BrowserPreview({ project }) {
 
   return (
     <div className="group/preview relative w-full overflow-hidden rounded-2xl border border-white/10 bg-[#090914] p-2 shadow-2xl transition-all duration-500 hover:border-indigo-500/30 hover:shadow-[0_0_30px_rgba(99,102,241,0.15)]">
-      {/* Background Ambient Glow untuk efek depth */}
+      {/* Background Ambient Glow */}
       <div className="absolute -left-10 -top-10 -z-10 h-40 w-40 rounded-full bg-indigo-600/20 blur-3xl opacity-50 transition-opacity duration-500 group-hover/preview:opacity-100" />
       <div className="absolute -bottom-10 -right-10 -z-10 h-40 w-40 rounded-full bg-cyan-500/20 blur-3xl opacity-50 transition-opacity duration-500 group-hover/preview:opacity-100" />
 
@@ -33,7 +33,7 @@ function BrowserPreview({ project }) {
             <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80 transition-transform group-hover/preview:scale-110" />
           </div>
 
-          {/* Fake URL Bar dengan Lock/SSL Icon */}
+          {/* Fake URL Bar */}
           <div className="flex max-w-[220px] flex-1 items-center justify-center gap-1.5 rounded-md border border-white/5 bg-white/5 px-3 py-1 text-[11px] text-zinc-400">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
             <span className="font-mono-alt truncate tracking-wide text-zinc-300">
@@ -62,19 +62,19 @@ function BrowserPreview({ project }) {
             </p>
           </div>
         ) : (
-          <div className="relative flex aspect-[16/10] w-full items-center justify-center overflow-hidden bg-[#05050d]">
-            {/* Gambar Screenshot Web */}
+          <div className="relative flex aspect-[16/10] w-full items-center justify-center overflow-hidden bg-[#0a0a16] p-1">
+            {/* Gambar Screenshot Web yang Utuh (object-contain) */}
             <img
               key={project.image}
               src={project.image}
               alt={`Tampilan ${project.title}`}
               loading="lazy"
               onError={() => setFailed(true)}
-              className="h-full w-full rounded-b-lg object-cover object-top transition-all duration-700 ease-out group-hover/preview:scale-105"
+              className="h-full w-full rounded-b-lg object-contain transition-all duration-500 group-hover/preview:scale-[1.02]"
             />
 
             {/* Subtle Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#090914] via-transparent to-transparent opacity-40 transition-opacity duration-300 group-hover/preview:opacity-20" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#090914]/40 via-transparent to-transparent opacity-40 transition-opacity duration-300 group-hover/preview:opacity-20" />
 
             {/* Hover Action Overlay */}
             <div className="absolute inset-0 flex items-center justify-center gap-3 bg-black/40 opacity-0 backdrop-blur-[2px] transition-all duration-300 group-hover/preview:opacity-100">

@@ -8,22 +8,6 @@ import {
 } from "framer-motion";
 import profile from "../../assets/profile.png";
 
-/**
- * LanyardCard — kartu ID/nametag yang menggantung pada tali.
- *
- * Interaksi:
- *  - Tarik kartunya ke kiri/kanan (mouse, touch, atau pen) lalu lepas.
- *    Kartu akan mengayun kembali seperti pendulum.
- *  - Saat idle, kartu bergoyang halus dengan sendirinya.
- *
- * Fisika pendulum disederhanakan tapi tetap benar: panjang tali konstan,
- * jadi saat kartu diayun ke samping ia otomatis naik sedikit
- * (y = L·cos θ − L) — bukan sekadar geser horizontal.
- *
- * Drag dibatasi ke sumbu X supaya `touch-action: pan-y` tetap aktif
- * dan scroll halaman di mobile tidak terkunci.
- */
-
 /** Panjang tali dari kait sampai klip kartu (px). */
 const ROPE_LENGTH = 132;
 /** Jarak maksimal tarikan horizontal (px). */
@@ -69,26 +53,41 @@ export default function LanyardCard() {
       <div className="pointer-events-none absolute left-1/2 top-40 h-[280px] w-[280px] -translate-x-1/2 rounded-full bg-indigo-500/25 blur-[90px]" />
 
       <div className="relative h-[700px]">
-        {/* Kait / gantungan tali */}
-        <div className="absolute left-1/2 top-0 -translate-x-1/2">
+        {/* Kait / gantungan atas */}
+        <div className="absolute left-1/2 top-0 -translate-x-1/2 z-20">
           <div className="h-2.5 w-28 rounded-full border border-white/12 bg-gradient-to-r from-zinc-700 via-zinc-500 to-zinc-700 shadow-lg shadow-black/40" />
           <div className="mx-auto mt-1 h-3 w-3 rounded-full border-2 border-zinc-400/70 bg-transparent" />
         </div>
 
-        {/* Tali */}
-        <div className="absolute left-1/2 top-[18px] -translate-x-1/2">
+        {/* Tali Lanyard Fabric Realistis */}
+        <div className="absolute left-1/2 top-[18px] -translate-x-1/2 z-10">
           <motion.div
             style={{ rotate, transformOrigin: "top center" }}
-            className="relative w-[16px] overflow-hidden rounded-b-sm"
+            className="relative w-7 overflow-hidden rounded-b-sm shadow-md shadow-black/60"
           >
+            {/* Base Kain (Gradien 3D + Tekstur Serat Anyaman) */}
             <div
-              className="w-full rounded-b-sm bg-gradient-to-b from-indigo-500 via-indigo-600 to-cyan-500"
-              style={{ height: ROPE_LENGTH }}
-            />
-            {/* jahitan tali */}
-            <div className="absolute inset-y-0 left-1/2 w-[1px] -translate-x-1/2 bg-white/25" />
-            <div className="absolute inset-y-0 left-[3px] w-[1px] bg-black/25" />
-            <div className="absolute inset-y-0 right-[3px] w-[1px] bg-black/25" />
+              className="relative w-full"
+              style={{
+                height: ROPE_LENGTH,
+                backgroundImage: `
+                  linear-gradient(90deg, #312e81 0%, #4338ca 25%, #6366f1 50%, #4338ca 75%, #312e81 100%),
+                  repeating-linear-gradient(45deg, rgba(0,0,0,0.18) 0px, rgba(0,0,0,0.18) 2px, transparent 2px, transparent 4px)
+                `,
+                backgroundBlendMode: "overlay",
+              }}
+            >
+              {/* Garis Jahitan Putus-Putus (Stitching) */}
+              <div className="absolute inset-y-0 left-[3px] w-[1px] border-r border-dashed border-white/35" />
+              <div className="absolute inset-y-0 right-[3px] w-[1px] border-r border-dashed border-white/35" />
+
+              {/* Garis Lipatan Tengah Kain */}
+              <div className="absolute inset-y-0 left-1/2 w-[1px] -translate-x-1/2 bg-black/35" />
+
+              {/* Shading Gelap Samping untuk efek Kedalaman Kain */}
+              <div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-r from-black/50 to-transparent" />
+              <div className="absolute inset-y-0 right-0 w-1 bg-gradient-to-l from-black/50 to-transparent" />
+            </div>
           </motion.div>
         </div>
 
@@ -114,9 +113,9 @@ export default function LanyardCard() {
             role="group"
             aria-label="Kartu nametag Agus Subekti — bisa ditarik dan diayunkan"
           >
-            {/* Klip logam */}
+            {/* Klip logam penjepit */}
             <div className="relative z-10 mx-auto -mb-2 h-7 w-14">
-              <div className="h-4 w-full rounded-t-md border border-white/15 bg-gradient-to-b from-zinc-300 to-zinc-500" />
+              <div className="h-4 w-full rounded-t-md border border-white/15 bg-gradient-to-b from-zinc-300 via-zinc-400 to-zinc-600 shadow-sm" />
               <div className="mx-auto h-3 w-8 rounded-b-md border border-t-0 border-white/15 bg-gradient-to-b from-zinc-500 to-zinc-700" />
             </div>
 
@@ -163,7 +162,7 @@ export default function LanyardCard() {
                 </div>
               </div>
 
-              {/* kilau */}
+              {/* Kilau kartu */}
               <div className="pointer-events-none absolute -left-1/3 top-0 h-full w-1/3 rotate-12 bg-gradient-to-r from-transparent via-white/8 to-transparent" />
             </div>
           </motion.div>

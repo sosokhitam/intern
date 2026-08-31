@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ExternalLink, Sparkles, ImageIcon } from "lucide-react";
 import { projects, projectFilters } from "../data/projects";
@@ -7,12 +7,18 @@ import Reveal from "./ui/Reveal";
 import TiltCard from "./ui/TiltCard";
 import { Github } from "./ui/BrandIcons";
 
-/** Preview browser mockup; jika gambar belum ada tampilkan placeholder. */
+/** Preview browser mockup dengan auto-reset state jika path gambar berubah. */
 function BrowserPreview({ project }) {
   const [failed, setFailed] = useState(false);
 
+  // Otomatis reset status error jika prop project.image berubah
+  useEffect(() => {
+    setFailed(false);
+  }, [project.image]);
+
   return (
     <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0b0b18] shadow-2xl">
+      {/* Top Bar Mockup Browser */}
       <div className="flex items-center gap-2 border-b border-white/8 bg-[#101024] px-4 py-3">
         <span className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
         <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/80" />
@@ -24,23 +30,25 @@ function BrowserPreview({ project }) {
         </span>
       </div>
 
+      {/* Konten Gambar / Fallback */}
       {failed ? (
         <div className="flex aspect-[16/10] flex-col items-center justify-center gap-3 bg-gradient-to-br from-indigo-500/12 via-[#0b0b18] to-cyan-500/12 text-zinc-500">
           <ImageIcon size={30} />
           <p className="font-mono-alt px-6 text-center text-[11px] leading-relaxed">
-            Tambahkan screenshot di
+            Gambar gagal dimuat:
             <br />
             <span className="text-indigo-300">{project.image}</span>
           </p>
         </div>
       ) : (
-        <div className="bg-white">
+        <div className="flex aspect-[16/10] w-full items-center justify-center bg-[#070712] p-1.5">
           <img
+            key={project.image}
             src={project.image}
             alt={`Tampilan ${project.title}`}
             loading="lazy"
             onError={() => setFailed(true)}
-            className="aspect-[16/10] w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
+            className="h-full w-full rounded-lg object-contain transition-transform duration-500 group-hover:scale-[1.02]"
           />
         </div>
       )}

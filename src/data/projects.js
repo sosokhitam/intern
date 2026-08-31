@@ -1,18 +1,7 @@
-import sisabisa from "../assets/Project/sisabisa.png";
-import cleanarea from "../assets/Project/cleanarea.png";
-import orderq from "../assets/Project/orderq.png";
-
 /**
  * DAFTAR PROJECT
  * --------------------------------------------------------------
- * Hanya project yang punya overview/penjelasan lengkap yang ditampilkan.
- *
- * Untuk project yang screenshot-nya belum ada, taruh file di:
- *    public/projects/<nama-file>.png     (rasio ideal 16:10, mis. 1600x1000)
- * lalu path-nya sudah ditulis di field `image` (mis. "/projects/aksesara.png").
- *
- * Kalau file belum ada, kartu otomatis menampilkan placeholder gradient
- * (tidak error), jadi aman untuk diisi menyusul.
+ * Menggunakan absolute path langsung ke folder public/projects/
  */
 export const projects = [
   {
@@ -65,7 +54,7 @@ export const projects = [
       "Auth & storage via Supabase",
     ],
     tech: ["React", "Express.js", "PostgreSQL", "Supabase", "AI API"],
-    image: sisabisa,
+    image: "/projects/sisabisa.png",
     demo: "https://sisabisa.vercel.app/",
     github: "https://github.com/sosokhitam/sisabisa-capstone",
   },
@@ -83,7 +72,7 @@ export const projects = [
       "Dashboard analitik penjualan",
     ],
     tech: ["Laravel", "PostgreSQL", "Supabase", "Tailwind CSS", "Breeze"],
-    image: orderq,
+    image: "/projects/orderq.png",
     demo: "#",
     github: "#",
   },
@@ -101,13 +90,12 @@ export const projects = [
       "Deployment + maintenance mandiri",
     ],
     tech: ["Laravel", "MySQL", "Bootstrap", "VPS Deployment"],
-    image: cleanarea,
+    image: "/projects/cleanarea.png",
     demo: "https://cleanarea.id/",
     github: "#",
   },
 ];
 
-/** Filter dibuat otomatis dari kategori yang benar-benar dipakai. */
 export const projectFilters = [
   "All",
   ...Array.from(new Set(projects.map((project) => project.category))),
